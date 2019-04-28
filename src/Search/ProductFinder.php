@@ -183,4 +183,15 @@ class ProductFinder
         }
         return $this->queryBuilder->get();
     }
+
+    public function getPaginatedResults($itemsPerPage = 25)
+    {
+        if ($this->excludeInactiveProducts) {
+            $this->queryBuilder->whereIn(
+                'state',
+                ProductStateProxy::getActiveStates()
+            );
+        }
+        return $this->queryBuilder->paginate($itemsPerPage);
+    }
 }
