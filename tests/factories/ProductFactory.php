@@ -18,7 +18,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'name'        => $faker->words(mt_rand(1, 3), true),
         'sku'         => $faker->unique()->ean8,
         'price'       => $faker->numberBetween(10, 2000),
-        'stock'       => $faker->numberBetween(10, 2000),
         'state'       => ProductState::ACTIVE,
         'description' => $faker->optional(0.9)->paragraph
     ];
