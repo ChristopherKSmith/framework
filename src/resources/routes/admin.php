@@ -15,6 +15,7 @@ Route::resource('product', 'ProductController');
 Route::resource('property', 'PropertyController');
 Route::resource('order', 'OrderController');
 Route::resource('media', 'MediaController')->only(['destroy', 'store']);
+Route::resource('shipping-method', 'ShippingMethodController');
 
 Route::get('/taxonomy/{taxonomy}/taxon/create', 'TaxonController@create')->name('taxon.create');
 Route::post('/taxonomy/{taxonomy}/taxon', 'TaxonController@store')->name('taxon.store');
