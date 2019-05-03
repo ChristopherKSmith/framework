@@ -45,9 +45,6 @@ use Vanilo\Order\Contracts\OrderFactory as OrderFactoryContract;
 use Vanilo\Product\Contracts\Product as ProductContract;
 use Vanilo\Product\Models\ProductProxy;
 
-use Vanilo\Contracts\ShippingMethod as ShippingMethodContract;
-use VVanilo\Framework\Models\ShippingMethod;
-
 class ModuleServiceProvider extends BaseBoxServiceProvider
 {
     use HasBreadcrumbs;
@@ -96,9 +93,6 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         // Use the framework's extended order factory
         $this->app->bind(OrderFactoryContract::class, OrderFactory::class);
 
-        // Use the framework's extended Shipping Method Class
-        $this->app->bind(ShippingMethodContract::class, ShippingMethod::class);
-
         $this->loadBreadcrumbs();
         $this->addMenuItems();
     }
@@ -111,9 +105,6 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
             $shop->addSubItem('product_properties', __('Product Properties'), ['route' => 'vanilo.property.index'])->data('icon', 'format-list-bulleted');
             $shop->addSubItem('categories', __('Categorization'), ['route' => 'vanilo.taxonomy.index'])->data('icon', 'folder');
             $shop->addSubItem('orders', __('Orders'), ['route' => 'vanilo.order.index'])->data('icon', 'mall');
-
-            $shop = $menu->addItem('shipping', __('Shipping'));
-            $shop->addSubItem('shipping-method', __('Shipping Method'), ['route' => 'vanilo.shipping-method.index'])->data('icon', 'layers');
         }
     }
 }
