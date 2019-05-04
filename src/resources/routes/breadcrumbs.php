@@ -89,3 +89,9 @@ Breadcrumbs::register('vanilo.property_value.edit', function ($breadcrumbs, $pro
     $breadcrumbs->parent('vanilo.property.show', $property);
     $breadcrumbs->push($propertyValue->title);
 });
+
+// Shipping Method
+Breadcrumbs::register('vanilo.shipping_method.index', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('Shipping Methods'), route('vanilo.shipping_method.index'));
+});

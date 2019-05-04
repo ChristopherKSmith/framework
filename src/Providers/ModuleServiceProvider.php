@@ -46,6 +46,10 @@ use Vanilo\Order\Contracts\Order as OrderContract;
 use Vanilo\Order\Contracts\OrderFactory as OrderFactoryContract;
 use Vanilo\Product\Contracts\Product as ProductContract;
 use Vanilo\Product\Models\ProductProxy;
+use Vanilo\Framework\Contracts\ShippingMethod as ShippingMethodContract;
+use Vanilo\Framework\Models\ShippingMethod;
+use Vanilo\Framework\Contracts\ShippingMethodType as ShippingMethodTypeContract;
+use Vanilo\Framework\Models\ShippingMethodType;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
 {
@@ -75,6 +79,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         parent::register();
 
         $this->app->bind(CheckoutDataFactoryContract::class, CheckoutDataFactory::class);
+        $this->app->concord->registerModel(ShippingMethodContract::class, ShippingMethod::class);
+        $this->app->concord->registerEnum(ShippingMethodTypeContract::class, ShippingMethodType::class);
     }
 
     public function boot()
@@ -87,6 +93,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         $this->concord->registerModel(CustomerContract::class, Customer::class);
         $this->concord->registerModel(TaxonContract::class, Taxon::class);
         $this->concord->registerModel(OrderContract::class, Order::class);
+
 
         // This is ugly, but it does the job for v0.1
         Relation::morphMap([
@@ -108,6 +115,9 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
             $shop->addSubItem('product_properties', __('Product Properties'), ['route' => 'vanilo.property.index'])->data('icon', 'format-list-bulleted');
             $shop->addSubItem('categories', __('Categorization'), ['route' => 'vanilo.taxonomy.index'])->data('icon', 'folder');
             $shop->addSubItem('orders', __('Orders'), ['route' => 'vanilo.order.index'])->data('icon', 'mall');
+
+            $shop = $menu->addItem('shipping', __('Shipping'));
+            $shop->addSubItem('shipping_method', __('Shipping Methods'), '/admin/shipping-method')->data('icon', 'layers');
         }
     }
 }
