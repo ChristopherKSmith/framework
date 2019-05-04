@@ -117,7 +117,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
             $shop->addSubItem('orders', __('Orders'), ['route' => 'vanilo.order.index'])->data('icon', 'mall');
 
             $shop = $menu->addItem('shipping', __('Shipping'));
-            $shop->addSubItem('shipping_method', __('Shipping Methods'), '/admin/shipping-method')->data('icon', 'layers');
+            $shop->addSubItem('shipping_methods', __('Shipping Methods'), 'admin/shipping/method')->data('icon', 'layers');
         }
     }
 }

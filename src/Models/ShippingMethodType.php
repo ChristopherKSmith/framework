@@ -11,7 +11,7 @@
 namespace Vanilo\Framework\Models;
 
 use Konekt\Enum\Enum;
-use AVanilo\Framework\Contracts\ShippingMethodType as ShippingMethodTypeContract;
+use Vanilo\Framework\Contracts\ShippingMethodType as ShippingMethodTypeContract;
 
 class ShippingMethodType extends Enum implements ShippingMethodTypeContract
 {

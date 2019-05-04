@@ -13,7 +13,7 @@
 
             <div class="card-actionbar">
                 @can('create products')
-                    <a href="{{ route('vanilo.shipping_method.create') }}" class="btn btn-sm btn-outline-success float-right">
+                    <a href="{{ route('vanilo.shipping-method.create') }}" class="btn btn-sm btn-outline-success float-right">
                         <i class="zmdi zmdi-plus"></i>
                         {{ __('New Shipping Method') }}
                     </a>

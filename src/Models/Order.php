@@ -12,7 +12,7 @@
 namespace Vanilo\Framework\Models;
 
 use Vanilo\Order\Models\Order as BaseOrder;
-use App\Models\ShippingMethodProxy;
+use Vanilo\Models\ShippingMethodProxy;
 
 class Order extends BaseOrder
 {

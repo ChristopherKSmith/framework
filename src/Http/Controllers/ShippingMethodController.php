@@ -12,13 +12,14 @@
 
 namespace Vanilo\Framework\Http\Controllers;
 
+use Konekt\AppShell\Http\Controllers\BaseController;
 //use Vanilo\Framework\Contracts\Requests\UpdateShippingMethod;
 use Vanilo\Framework\Contracts\ShippingMethod;
 use Vanilo\Framework\Models\ShippingMethodProxy;
 use Vanilo\Framework\Models\ShippingMethodTypeProxy;
 use Konekt\Address\Models\CountryProxy;
 
-class ShippingMethodController extends Controller
+class ShippingMethodController  extends BaseController
 {
     public function index()
     {

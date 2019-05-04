@@ -31,8 +31,8 @@ Route::put('/property/{property}/value/{property_value}', 'PropertyValueControll
 Route::delete('/property/{property}/value/{property_value}', 'PropertyValueController@destroy')->name('property_value.destroy');
 Route::put('/property/sync/{for}/{forId}', 'PropertyValueController@sync')->name('property_value.sync');
 
-Route::get('shipping-method', 'ShippingMethodController@index')->name('shipping_method.index');
-Route::get('shipping-method/create', 'ShippingMethodController@create')->name('shipping_method.create');
-Route::get('shipping-method/edit', 'ShippingMethodController@edit')->name('shipping_method.edit');
-Route::get('shipping-method/store', 'ShippingMethodController@store')->name('shipping_method.store');
-Route::get('shipping-method/update', 'ShippingMethodController@update')->name('shipping_method.update');
+Route::get('shipping/method', 'ShippingMethodController@index')->name('shipping_method.index');
+Route::get('shipping/method/create', 'ShippingMethodController@create')->name('shipping_method.create');
+Route::get('shipping/method/edit', 'ShippingMethodController@edit')->name('shipping_method.edit');
+Route::get('shipping/method/store', 'ShippingMethodController@store')->name('shipping_method.store');
+Route::get('shipping/method/update', 'ShippingMethodController@update')->name('shipping_method.update');
