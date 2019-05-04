@@ -41,6 +41,8 @@ use Menu;
 use Vanilo\Framework\Models\Customer;
 use Vanilo\Framework\Models\Product;
 use Vanilo\Framework\Models\Taxon;
+use Vanilo\Framework\Models\Order;
+use Vanilo\Order\Contracts\Order as OrderContract;
 use Vanilo\Order\Contracts\OrderFactory as OrderFactoryContract;
 use Vanilo\Product\Contracts\Product as ProductContract;
 use Vanilo\Product\Models\ProductProxy;
@@ -84,6 +86,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         $this->concord->registerModel(AddressContract::class, Address::class);
         $this->concord->registerModel(CustomerContract::class, Customer::class);
         $this->concord->registerModel(TaxonContract::class, Taxon::class);
+        $this->concord->registerModel(OrderContract::class, Order::class);
 
         // This is ugly, but it does the job for v0.1
         Relation::morphMap([

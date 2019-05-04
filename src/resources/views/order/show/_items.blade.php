@@ -27,12 +27,16 @@
             @endforeach
             </tbody>
             <tfoot>
-            <tr>
-                <th colspan="4">
-                    <div class="text-right">{{ __('Order total') }}:</div>
-                </th>
-                <th>{{ format_price($order->total()) }}</th>
-            </tr>
+                <tr>
+                    <th colspan="4">
+                        <div style="float:right;">
+                                <div class="">{{ __('Sub total') }}: {{ format_price($order->subtotal()) }} </div>
+                                <div class="">{{ __('Shipping total') }}: {{ format_price($order->shippingMethod->rate) }}</div>
+                                <div class="">{{ __('Order total') }}: {{ format_price($order->total()) }}</div>
+                        </div>
+                        
+                    </th>
+                </tr>
             </tfoot>
         </table>
 

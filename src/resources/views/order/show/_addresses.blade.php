@@ -36,6 +36,7 @@
                     {{ $shippingAddress->getAddress() }}<br>
                     {{ $shippingAddress->getCity() }}@if($shippingAddress->getPostalCode()), {{ $shippingAddress->getPostalCode() }} @endif<br>
                     {{ $shippingAddress->country->name }}<br>
+                    {{$order->shippingMethod->name}}
                 </p>
             </div>
         </div>
