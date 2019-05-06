@@ -13,7 +13,8 @@
 namespace Vanilo\Framework\Http\Controllers;
 
 use Konekt\AppShell\Http\Controllers\BaseController;
-//use Vanilo\Framework\Contracts\Requests\UpdateShippingMethod;
+use Vanilo\Framework\Http\Requests\CreateShippingMethod;
+use Vanilo\Framework\Http\Requests\UpdateShippingMethod;
 use Vanilo\Framework\Contracts\ShippingMethod;
 use Vanilo\Framework\Models\ShippingMethodProxy;
 use Vanilo\Framework\Models\ShippingMethodTypeProxy;
@@ -42,18 +43,47 @@ class ShippingMethodController  extends BaseController
         ]);
     }
 
-    public function edit()
+    public function edit(ShippingMethod $shipping_method)
     {
-        return view('vanilo::shipping-method.edit', []);
+        return view('vanilo::shipping-method.edit', [
+            'shipping_method' => $shipping_method,
+            'countries'  => CountryProxy::all(),
+            'types' => ShippingMethodTypeProxy::choices(),
+        ]);
     }
 
-    public function store()
+    /**
+     * @param CreateShippingMethod $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store(CreateShippingMethod $request)
     {
-        return view('vanilo::shipping-method.store', []);
+        try {
+            $shipping_method = ShippingMethodProxy::create($request->all());
+            flash()->success(__(':name has been created', ['name' => $shipping_method->name]));
+
+        } catch (\Exception $e) {
+            flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
+
+            return redirect()->back()->withInput();
+        }
+
+        return redirect(route('vanilo.shipping_method.index'));
     }
 
-    public function update()
+    public function update(ShippingMethod $shipping_method, UpdateShippingMethod $request)
     {
-        return view('vanilo::shipping-method.update', []);
+        try {
+            $shipping_method->update($request->all());
+
+            flash()->success(__(':name has been updated', ['name' => $shipping_method->name]));
+        } catch (\Exception $e) {
+            flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
+
+            return redirect()->back()->withInput();
+        }
+
+        return redirect(route('vanilo.shipping_method.index', $shipping_method));
     }
 }

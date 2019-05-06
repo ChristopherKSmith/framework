@@ -33,6 +33,6 @@ Route::put('/property/sync/{for}/{forId}', 'PropertyValueController@sync')->name
 
 Route::get('shipping/method', 'ShippingMethodController@index')->name('shipping_method.index');
 Route::get('shipping/method/create', 'ShippingMethodController@create')->name('shipping_method.create');
-Route::get('shipping/method/edit', 'ShippingMethodController@edit')->name('shipping_method.edit');
-Route::get('shipping/method/store', 'ShippingMethodController@store')->name('shipping_method.store');
-Route::get('shipping/method/update', 'ShippingMethodController@update')->name('shipping_method.update');
+Route::get('shipping/method/{shipping_method}/edit', 'ShippingMethodController@edit')->name('shipping_method.edit');
+Route::post('shipping/method/store', 'ShippingMethodController@store')->name('shipping_method.store');
+Route::put('shipping/method/{shipping_method}/update', 'ShippingMethodController@update')->name('shipping_method.update');
