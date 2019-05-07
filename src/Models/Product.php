@@ -46,4 +46,18 @@ class Product extends BaseProduct implements Buyable, HasMedia
             }
         }
     }
+
+    public function isOnSale(): bool
+    {
+            return $this->sale_price > 0;
+    }
+
+    public function getSalePercent(): int
+    {
+        if($this->sale_price > 0)
+        {
+            return ($this->price / $this->sale_price) * 100;
+        }
+        return 0;
+    }
 }
