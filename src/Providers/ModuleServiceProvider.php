@@ -24,6 +24,7 @@ use Vanilo\Framework\Http\Requests\CreatePropertyValueForm;
 use Vanilo\Framework\Http\Requests\CreateTaxon;
 use Vanilo\Framework\Http\Requests\CreateTaxonForm;
 use Vanilo\Framework\Http\Requests\SyncModelPropertyValues;
+use Vanilo\Framework\Http\Requests\SyncModelProperties;
 use Vanilo\Framework\Http\Requests\SyncModelTaxons;
 use Vanilo\Framework\Http\Requests\UpdateProperty;
 use Vanilo\Framework\Http\Requests\UpdatePropertyValue;
@@ -50,6 +51,8 @@ use Vanilo\Framework\Contracts\ShippingMethod as ShippingMethodContract;
 use Vanilo\Framework\Models\ShippingMethod;
 use Vanilo\Framework\Contracts\ShippingMethodType as ShippingMethodTypeContract;
 use Vanilo\Framework\Models\ShippingMethodType;
+use Vanilo\Framework\Contracts\ProductVariant as ProductVariantContract;
+use Vanilo\Framework\Models\ProductVariant;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
 {
@@ -71,7 +74,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         CreatePropertyValueForm::class,
         CreatePropertyValue::class,
         UpdatePropertyValue::class,
-        SyncModelPropertyValues::class
+        SyncModelPropertyValues::class,
+        SyncModelProperties::class
     ];
 
     public function register()
@@ -80,6 +84,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
 
         $this->app->bind(CheckoutDataFactoryContract::class, CheckoutDataFactory::class);
         $this->app->concord->registerModel(ShippingMethodContract::class, ShippingMethod::class);
+        $this->app->concord->registerModel(ProductVariantContract::class, ProductVariant::class);
         $this->app->concord->registerEnum(ShippingMethodTypeContract::class, ShippingMethodType::class);
     }
 

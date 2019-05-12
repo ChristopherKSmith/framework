@@ -32,13 +32,15 @@ class MediaController extends BaseController
         }
 
         // E.g. 'product'
-        $modelName = str_singular(shorten(get_class($model)));
+        // $modelName = str_singular(shorten(get_class($model)));
 
-        return redirect(route(
-            sprintf('vanilo.%s.edit', $modelName),
-            [$modelName => $model]
-            )
-        );
+        // return redirect(route(
+        //     sprintf('vanilo.%s.edit', $modelName),
+        //     [$modelName => $model]
+        //     )
+        // );
+
+        return redirect()->back();
     }
 
     public function store(CreateMedia $request)

@@ -15,6 +15,8 @@ Route::resource('product', 'ProductController');
 Route::resource('property', 'PropertyController');
 Route::resource('order', 'OrderController');
 Route::resource('media', 'MediaController')->only(['destroy', 'store']);
+//Needed To add Properties to Product
+Route::put('/properties/sync/{for}/{forId}', 'PropertyController@sync')->name('property.sync');
 
 Route::get('/taxonomy/{taxonomy}/taxon/create', 'TaxonController@create')->name('taxon.create');
 Route::post('/taxonomy/{taxonomy}/taxon', 'TaxonController@store')->name('taxon.store');
@@ -36,3 +38,8 @@ Route::get('shipping/method/create', 'ShippingMethodController@create')->name('s
 Route::get('shipping/method/{shipping_method}/edit', 'ShippingMethodController@edit')->name('shipping_method.edit');
 Route::post('shipping/method/store', 'ShippingMethodController@store')->name('shipping_method.store');
 Route::put('shipping/method/{shipping_method}/update', 'ShippingMethodController@update')->name('shipping_method.update');
+
+Route::get('product/{product}/variant/create', 'ProductVariantController@create')->name('product_variant.create');
+Route::get('product/{product}/variant/{product_variant}/edit', 'ProductVariantController@edit')->name('product_variant.edit');
+Route::post('product/{product}/variant/store', 'ProductVariantController@store')->name('product_variant.store');
+Route::put('product/{product}/variant/{product_variant}/edit', 'ProductVariantController@update')->name('product_variant.update');

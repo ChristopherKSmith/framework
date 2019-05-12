@@ -17,6 +17,7 @@ use Vanilo\Framework\Contracts\Requests\UpdateProperty;
 use Vanilo\Properties\Contracts\Property;
 use Vanilo\Properties\Models\PropertyProxy;
 use Vanilo\Properties\PropertyTypes;
+use Vanilo\Framework\Contracts\Requests\SyncModelProperties;
 
 class PropertyController extends BaseController
 {
@@ -91,5 +92,13 @@ class PropertyController extends BaseController
         }
 
         return redirect(route('vanilo.property.index'));
+    }
+
+    public function sync(SyncModelProperties $request, $for, $forId)
+    {
+        $model = $request->getFor();
+        $model->properties()->sync($request->getPropertyIds());
+
+        return redirect(route(sprintf('vanilo.%s.show', shorten(get_class($model))), $model));
     }
 }

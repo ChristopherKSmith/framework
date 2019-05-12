@@ -18,9 +18,11 @@ use Spatie\MediaLibrary\Models\Media;
 use Vanilo\Category\Traits\HasTaxons;
 use Vanilo\Contracts\Buyable;
 use Vanilo\Properties\Traits\HasPropertyValues;
+use Vanilo\Framework\Traits\HasProperties;
 use Vanilo\Support\Traits\BuyableImageSpatieV7;
 use Vanilo\Support\Traits\BuyableModel;
 use Vanilo\Product\Models\Product as BaseProduct;
+use Vanilo\Framework\Models\ProductVariant;
 
 class Product extends BaseProduct implements Buyable, HasMedia
 {
@@ -28,7 +30,7 @@ class Product extends BaseProduct implements Buyable, HasMedia
     protected const DEFAULT_THUMBNAIL_HEIGHT = 250;
     protected const DEFAULT_THUMBNAIL_FIT    = Manipulations::FIT_CROP;
 
-    use BuyableModel, BuyableImageSpatieV7, HasMediaTrait, HasTaxons, HasPropertyValues;
+    use BuyableModel, BuyableImageSpatieV7, HasMediaTrait, HasTaxons, HasProperties, HasPropertyValues;
 
     protected $dates = ['created_at', 'updated_at', 'last_sale_at'];
 
@@ -47,16 +49,26 @@ class Product extends BaseProduct implements Buyable, HasMedia
         }
     }
 
+    public function variants()
+    {
+        return $this->hasMany('Vanilo\Framework\Models\ProductVariant');
+    }
+
     public function isOnSale(): bool
     {
             return $this->sale_price > 0;
     }
 
-    public function getSalePercent(): int
+    public function getDiscountPrice() : float
     {
-        if($this->sale_price > 0)
+        return $this->price - $this->sale_price;
+    }
+
+    public function getDiscountPercent(): int
+    {
+        if($this->getDiscountPrice() > 0)
         {
-            return ($this->price / $this->sale_price) * 100;
+            return ($this->getDiscountPrice() / $this->price) * 100;
         }
         return 0;
     }

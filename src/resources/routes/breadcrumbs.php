@@ -90,8 +90,19 @@ Breadcrumbs::register('vanilo.property_value.edit', function ($breadcrumbs, $pro
     $breadcrumbs->push($propertyValue->title);
 });
 
-// Shipping Method
+
 Breadcrumbs::register('vanilo.shipping_method.index', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(__('Shipping Methods'), route('vanilo.shipping_method.index'));
+});
+
+
+Breadcrumbs::register('vanilo.shipping_method.create', function ($breadcrumbs) {
+    $breadcrumbs->parent('vanilo.shipping_method.index');
+    $breadcrumbs->push(__('Create Shipping Method'));
+});
+
+Breadcrumbs::register('vanilo.product_variant.create', function ($breadcrumbs, $product) {
+    $breadcrumbs->parent('vanilo.product.show', $product);
+    $breadcrumbs->push(__('Create Variant'));
 });

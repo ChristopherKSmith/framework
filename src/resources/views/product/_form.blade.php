@@ -17,6 +17,7 @@
 <hr>
 
 <div class="form-row">
+    <label class="form-control-label col-md-2">{{ __('SKU') }}</label>
     <div class="form-group col-12 col-md-6 col-xl-4">
         <div class="input-group">
             <span class="input-group-addon">
@@ -36,6 +37,7 @@
 </div>
 
 <div class="form-row">
+    <label class="form-control-label col-md-2">{{ __('Stock') }}</label>
     <div class="form-group col-12 col-md-6 col-xl-4">
         <div class="input-group">
             <span class="input-group-addon">
@@ -55,11 +57,52 @@
 </div>
 
 <div class="form-row">
+    <label class="form-control-label col-md-2">{{ __('Cost') }}</label>
+    <div class="form-group col-12 col-md-6 col-xl-4">
+        <div class="input-group">
+            {{ Form::text('cost', null, [
+                    'class' => 'form-control' . ($errors->has('cost') ? ' is-invalid' : ''),
+                    'placeholder' => __('Product Cost')
+                ])
+            }}
+            <span class="input-group-addon">
+                {{ config('vanilo.framework.currency.code') }}
+            </span>
+        </div>
+        @if ($errors->has('price'))
+            <input hidden class="form-control is-invalid">
+            <div class="invalid-feedback">{{ $errors->first('price') }}</div>
+        @endif
+    </div>
+</div>
+
+<div class="form-row">
+    <label class="form-control-label col-md-2">{{ __('Price') }}</label>
     <div class="form-group col-12 col-md-6 col-xl-4">
         <div class="input-group">
             {{ Form::text('price', null, [
                     'class' => 'form-control' . ($errors->has('price') ? ' is-invalid' : ''),
                     'placeholder' => __('Price')
+                ])
+            }}
+            <span class="input-group-addon">
+                {{ config('vanilo.framework.currency.code') }}
+            </span>
+        </div>
+        @if ($errors->has('price'))
+            <input hidden class="form-control is-invalid">
+            <div class="invalid-feedback">{{ $errors->first('price') }}</div>
+        @endif
+    </div>
+</div>
+
+<div class="form-row">
+    <label class="form-control-label col-md-2">{{ __('Sale Price') }}</label>
+    <div class="form-group col-12 col-md-6 col-xl-4">
+        <div class="input-group">
+            {{ Form::text('sale_price', null, [
+                    'class' => 'form-control' . ($errors->has('sale_price') ? ' is-invalid' : ''),
+                    'placeholder' => __('Sale Price')
                 ])
             }}
             <span class="input-group-addon">
