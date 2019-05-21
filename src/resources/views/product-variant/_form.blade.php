@@ -93,9 +93,9 @@
                 <select name="propertyValueIds[]" style="width:100%;">
                     @foreach($property->values() as $property_value)
                         <option value="{{$property_value->id}}"
-                            @if(isset($productVariant) && $productVariant->propertyValues->firstWhere('property_id', $property->id)->title === $property_value->title) 
+                            {{-- @if(isset($productVariant) && $productVariant->propertyValues->firstWhere('property_id', $property->id)->title === $property_value->title) 
                                 selected 
-                            @endif >
+                            @endif --}}>
                             {{$property_value->title}}
                         </option>
                     @endforeach

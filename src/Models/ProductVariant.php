@@ -19,6 +19,7 @@ use Spatie\MediaLibrary\Models\Media;
 use Vanilo\Support\Traits\BuyableImageSpatieV7;
 use Illuminate\Database\Eloquent\Model;
 use Vanilo\Framework\Contracts\ProductVariant as ProductVariantContract;
+use Vanilo\Properties\Traits\HasPropertyValues;
 
 class ProductVariant extends Model implements ProductVariantContract, HasMedia
 {
@@ -27,11 +28,12 @@ class ProductVariant extends Model implements ProductVariantContract, HasMedia
     protected const DEFAULT_THUMBNAIL_FIT    = Manipulations::FIT_CROP;
 
     
-    use BuyableImageSpatieV7, HasMediaTrait;
+    use BuyableImageSpatieV7, HasMediaTrait, HasPropertyValues;
 
     
     protected $table = 'product_variants';
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $appends = ['images'];
 
     public function registerMediaConversions(Media $media = null)
     {
@@ -48,9 +50,24 @@ class ProductVariant extends Model implements ProductVariantContract, HasMedia
         }
     }
 
-    public function propertyValues()
+    public function getImagesAttribute()
     {
-        return $this->belongsToMany('Vanilo\Properties\Models\PropertyValue', 'product_variant_property_value', 'product_variant_id', 'property_value_id');
+        //Check if media has collection
+        if ($this->media->isEmpty()) {
+            return [];
+        } else {
+            $images = [];
+            foreach(config('vanilo.framework.image.variants', []) as $name => $settings){
+                $image_variant = [];
+                foreach($this->getMedia() as $media)
+                {
+                    array_push($image_variant,$media->first() ? $media->getUrl($name) : '/images/product-'.$name.'.jpg');
+                }
+                $images[$name] = $image_variant;
+            }
+            
+            return $images;
+        }  
     }
 
 

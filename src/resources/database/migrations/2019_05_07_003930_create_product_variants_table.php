@@ -19,6 +19,7 @@ class CreateProductVariantsTable extends Migration
             $table->string('sku');
             $table->decimal('cost', 15, 4)->default(0);
             $table->decimal('price', 15, 4)->nullable();
+            $table->decimal('stock', 15, 4)->default(0);
             $table->softDeletes();
             $table->timestamps();
 
