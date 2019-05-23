@@ -121,7 +121,6 @@
 <div class="form-group row">
     <label class="form-control-label col-md-2">{{ __('State') }}</label>
     <div class="col-md-10">
-        <?php /*$errors->has('state') ? ' is-invalid' : ''; */ ?>
 
         @foreach($states as $key => $value)
             <label class="radio-inline" for="state_{{ $key }}">
@@ -134,6 +133,30 @@
         @if ($errors->has('state'))
             <input hidden class="form-control is-invalid">
             <div class="invalid-feedback">{{ $errors->first('state') }}</div>
+        @endif
+    </div>
+</div>
+
+<div class="form-group row">
+    <label class="form-control-label col-md-2">{{ __('Featured') }}</label>
+    <div class="col-md-10">
+
+        <label class="radio-inline" for="featured_{{ $key }}">
+            {{ Form::radio('is_featured', 1, []) }}
+            True
+            &nbsp;
+        </label>
+
+        <label class="radio-inline" for="featured_{{ $key }}">
+            {{ Form::radio('is_featured', 0, []) }}
+            False
+            &nbsp;
+        </label>
+        
+
+        @if ($errors->has('is_featured'))
+            <input hidden class="form-control is-invalid">
+            <div class="invalid-feedback">{{ $errors->first('is_featured') }}</div>
         @endif
     </div>
 </div>

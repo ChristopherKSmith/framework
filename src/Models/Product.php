@@ -101,4 +101,5 @@ class Product extends BaseProduct implements Buyable, HasMedia
         }
         return 0;
     }
+    
 }
