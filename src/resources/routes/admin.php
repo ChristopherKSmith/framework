@@ -10,11 +10,18 @@
 |--------------------------------------------------------------------------
 */
 
+//Note: Always define static routes first
+
+//Product Upload Routes
+Route::get('product/upload', 'ProductUploadController@index')->name('product_upload.index');
+Route::post('product/upload', 'ProductUploadController@upload')->name('product_upload.upload');
+
 Route::resource('taxonomy', 'TaxonomyController');
 Route::resource('product', 'ProductController');
 Route::resource('property', 'PropertyController');
 Route::resource('order', 'OrderController');
 Route::resource('media', 'MediaController')->only(['destroy', 'store']);
+
 //Needed To add Properties to Product
 Route::put('/properties/sync/{for}/{forId}', 'PropertyController@sync')->name('property.sync');
 

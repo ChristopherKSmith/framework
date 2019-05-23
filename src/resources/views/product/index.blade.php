@@ -13,6 +13,10 @@
 
             <div class="card-actionbar">
                 @can('create products')
+                    <a href="{{ route('vanilo.product_upload.index') }}" class="btn btn-sm btn-outline-primary float-right">
+                        <i class="zmdi zmdi-plus"></i>
+                        {{ __('Upload Products') }}
+                    </a>
                     <a href="{{ route('vanilo.product.create') }}" class="btn btn-sm btn-outline-success float-right">
                         <i class="zmdi zmdi-plus"></i>
                         {{ __('New Product') }}

@@ -111,3 +111,8 @@ Breadcrumbs::register('vanilo.product_variant.edit', function ($breadcrumbs, $pr
     $breadcrumbs->parent('vanilo.product.show', $product);
     $breadcrumbs->push($productVariant->sku);
 });
+
+Breadcrumbs::register('vanilo.product_upload.index', function ($breadcrumbs) {
+    $breadcrumbs->parent('vanilo.product.index');
+    $breadcrumbs->push(__('Upload'));
+});
