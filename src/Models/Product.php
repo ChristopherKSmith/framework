@@ -23,6 +23,11 @@ use Vanilo\Support\Traits\BuyableModel;
 use Vanilo\Product\Models\Product as BaseProduct;
 use Vanilo\Framework\Models\ProductVariant;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Vanilo\Properties\Models\Property as Property;
+
+//Testing
+use Illuminate\Support\Facades\Log;
+
 class Product extends BaseProduct implements Buyable, HasMedia
 {
     protected const DEFAULT_THUMBNAIL_WIDTH  = 250;
@@ -34,6 +39,19 @@ class Product extends BaseProduct implements Buyable, HasMedia
     protected $dates = ['created_at', 'updated_at', 'last_sale_at'];
 
     protected $appends = ['images'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($product) {
+            
+            foreach($product->variants as $variant)
+            {
+                $variant->delete();
+            }
+        });
+    }
 
     public function registerMediaConversions(Media $media = null)
     {
@@ -100,6 +118,14 @@ class Product extends BaseProduct implements Buyable, HasMedia
             return ($this->getDiscountPrice() / $this->price) * 100;
         }
         return 0;
+    }
+
+    public function hasProperty(Property $property) : bool
+    {
+        foreach($this->properties as $prop){
+            if($prop->id === $property->id){return true;}
+        }
+        return false;
     }
     
 }

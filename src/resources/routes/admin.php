@@ -49,4 +49,5 @@ Route::put('shipping/method/{shipping_method}/update', 'ShippingMethodController
 Route::get('product/{product}/variant/create', 'ProductVariantController@create')->name('product_variant.create');
 Route::get('product/{product}/variant/{product_variant}/edit', 'ProductVariantController@edit')->name('product_variant.edit');
 Route::post('product/{product}/variant/store', 'ProductVariantController@store')->name('product_variant.store');
-Route::put('product/{product}/variant/{product_variant}/edit', 'ProductVariantController@update')->name('product_variant.update');
+Route::put('product/{product}/variant/{product_variant}', 'ProductVariantController@update')->name('product_variant.update');
+Route::delete('product/{product}/variant/{product_variant}', 'ProductVariantController@destroy')->name('product_variant.destroy');

@@ -89,6 +89,7 @@ class ProductController extends BaseController
     {
         return view('vanilo::product.show', [
             'product'    => $product,
+            'variants' => $product->variants()->paginate(15),
             'taxonomies' => TaxonomyProxy::all(),
             'properties' => PropertyProxy::all()
         ]);

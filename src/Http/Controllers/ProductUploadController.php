@@ -22,6 +22,8 @@ use Vanilo\Framework\Http\Requests\UpdateProductVariant;
 use Vanilo\Properties\Models\PropertyValueProxy;
 use Vanilo\Properties\Models\PropertyProxy;
 use Vanilo\Framework\Http\Requests\UploadProduct;
+use Vanilo\Product\Models\ProductStateProxy;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class ProductUploadController extends BaseController
@@ -49,8 +51,8 @@ class ProductUploadController extends BaseController
             //Validate CSV File
             if (($handle = fopen($file_path, "r")) !== FALSE) {
 
-                $header_row = fgetcsv($handle, 1000, ","); //Skip Header Row
-                while (($file_data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $header_row = fgetcsv($handle, 50000, ","); //Skip Header Row
+                while (($file_data = fgetcsv($handle, 50000, ",")) !== FALSE) {
                     $line++;
 
                     $data = array();
@@ -63,10 +65,12 @@ class ProductUploadController extends BaseController
                         $data['state'],
                     ) = $file_data;
                                 
-                    $csv_errors = Validator::make(
-                        $data, 
-                        (new CreateProduct)->rules()
-                    )->errors();
+                    $csv_errors = Validator::make($data,[
+                        'name'     => 'required|min:2|max:255',
+                        'state'    => ['required', Rule::in(ProductStateProxy::values())],
+                        'price'    => 'nullable|numeric',
+                        'stock'    => 'nullable|numeric',
+                    ]);
 
 
                     //If Key Contains "Property" and Value = null/empty return error
@@ -74,18 +78,18 @@ class ProductUploadController extends BaseController
                     {
                         if((strpos(strtolower($key), 'property') !== false) && empty($value))
                         {
-                            $csv_errors->add('property', $key . " - Product property cannot be empty, it must contain a value.");
+                            $csv_errors->errors()->add('property', $key . " - Product property cannot be empty, it must contain a value.");
                         }
 
                         //Property Name in Header Must Contain a Colon for processing
                         if((strpos(strtolower($key), 'property') !== false) && (strpos(strtolower($key), ':') === false))
                         {
-                            $csv_errors->add('property', $key . " - Error: Header must be in following format {Property: Property Name}");
+                            $csv_errors->errors()->add('property', $key . " - Error: Header must be in following format {Property: Property Name}");
                         }
                     }
 
                     
-                    if ($csv_errors->any()) {
+                    if ($csv_errors->fails()) {
                         return redirect()->back()
                         ->withErrors($csv_errors, 'import')
                         ->with('error_line', $line);
@@ -97,8 +101,8 @@ class ProductUploadController extends BaseController
             //Process CSV File
             if (($handle = fopen($file_path, "r")) !== FALSE) {
 
-                $header_row = fgetcsv($handle, 1000, ","); //Skip Header Row
-                while (($file_data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $header_row = fgetcsv($handle, 50000, ","); //Skip Header Row
+                while (($file_data = fgetcsv($handle, 50000, ",")) !== FALSE) {
                     $line++;
 
                     $data = array();
@@ -131,15 +135,33 @@ class ProductUploadController extends BaseController
                         //Create New Product
                         $product = ProductProxy::create($data);
                     }
+                    
 
-                    //Create Variant
-                    $variant = ProductVariantProxy::create([
-                        'sku' => $data['sku'],
-                        'price' => $data['price'],
-                        'cost' => $data['cost'],
-                        'product_id' => $product->id,
+                    //Check if variant exists
+                    $variant = ProductVariantProxy::where('sku', $data['sku'])->first();
+                    if(empty($variant))
+                    {
+                        //Create Variant
+                        $variant = ProductVariantProxy::create([
+                            'sku' => $data['sku'],
+                            'price' => $data['price'],
+                            'cost' => $data['cost'],
+                            'stock' => $data['stock'],
+                            'product_id' => $product->id,
 
-                    ]);
+                        ]);
+                    }else{
+                        //Update Variant
+                        $variant->fill([
+                            'sku' => $data['sku'],
+                            'price' => $data['price'],
+                            'cost' => $data['cost'],
+                            'stock' => $data['stock'],
+                            'product_id' => $product->id,
+
+                        ]);
+                        $variant->save();
+                    }
 
                     //Add Properties and PropertyValues
                     foreach($properties as $key => $value)
@@ -155,7 +177,7 @@ class ProductUploadController extends BaseController
                             //Need Name, Slug, Type
 
                             $property = PropertyProxy::create([
-                                'name' => $key,
+                                'name' => ucwords(strtolower($key)),
                                 'slug' => $property_slug,
                                 'type' => 'text'
                             ]);
@@ -176,15 +198,25 @@ class ProductUploadController extends BaseController
                         {
                             //Create New Property Value
                             $property_value = PropertyValueProxy::create([
-                                'title' => $value,
-                                'value' => $value,
+                                'title' => strtoupper($value),
+                                'value' => strtolower($value),
                                 'property_id' => $property->id,
                                 'priority' => $priority,
                             ]);
                         }
-
-                        $product->addProperty($property);
-                        $variant->addPropertyValue($property_value);
+                        //return var_dump($property);
+                        //Add Property
+                        if(!$product->hasProperty($property))
+                        {
+                            $product->addProperty($property);
+                        }
+                        
+                        //Add Property Value to Variant
+                        if(!$variant->hasPropertyValue($property_value))
+                        {
+                            $variant->addPropertyValue($property_value);
+                        }
+                        
                     }
                                 
                     

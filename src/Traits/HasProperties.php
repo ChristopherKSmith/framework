@@ -49,4 +49,14 @@ trait HasProperties
     {
         return $this->properties()->detach($property);
     }
+
+    protected static function bootHasProperties()
+    {
+        self::deleting(function ($model) {
+            foreach($model->properties as $property)
+            {
+                $model->properties()->detach($property);
+            }
+        });
+    }
 }

@@ -19,7 +19,11 @@ use Spatie\MediaLibrary\Models\Media;
 use Vanilo\Support\Traits\BuyableImageSpatieV7;
 use Illuminate\Database\Eloquent\Model;
 use Vanilo\Framework\Contracts\ProductVariant as ProductVariantContract;
-use Vanilo\Properties\Traits\HasPropertyValues;
+use Vanilo\Properties\Models\PropertyValue as PropertyValue;
+use Vanilo\Framework\Traits\HasPropertyValues;
+
+//Testing
+use Illuminate\Support\Facades\Log;
 
 class ProductVariant extends Model implements ProductVariantContract, HasMedia
 {
@@ -34,6 +38,7 @@ class ProductVariant extends Model implements ProductVariantContract, HasMedia
     protected $table = 'product_variants';
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $appends = ['images'];
+    
 
     public function registerMediaConversions(Media $media = null)
     {
@@ -68,6 +73,14 @@ class ProductVariant extends Model implements ProductVariantContract, HasMedia
             
             return $images;
         }  
+    }
+
+    public function hasPropertyValue(PropertyValue $property_value) : bool
+    {
+        foreach($this->propertyValues as $val){
+            if($val->id === $property_value->id){return true;}
+        }
+        return false;
     }
 
 

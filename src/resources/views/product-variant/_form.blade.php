@@ -21,7 +21,7 @@
     </div>
 </div>
 
-{{-- <div class="form-row">
+<div class="form-row">
     <label class="form-control-label col-md-2">{{ __('Stock') }}</label>
     <div class="form-group col-12 col-md-6 col-xl-4">
         <div class="input-group">
@@ -39,7 +39,7 @@
             <div class="invalid-feedback">{{ $errors->first('stock') }}</div>
         @endif
     </div>
-</div> --}}
+</div>
 
 <div class="form-row">
     <label class="form-control-label col-md-2">{{ __('Cost') }}</label>

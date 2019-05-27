@@ -112,4 +112,28 @@ class ProductVariantController extends BaseController
         return redirect()->route('vanilo.product.show', ['product' => $product]);
     }
 
+    /**
+     * Delete a Product Variant
+     *
+     * @param Product $product
+     * @param ProductVariant $product_variant
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy(Product $product, ProductVariant $product_variant)
+    {
+        try {
+            $sku = $product_variant->sku;
+            $product_variant->delete();
+
+            flash()->warning(__(':sku has been deleted', ['sku' => $sku]));
+        } catch (\Exception $e) {
+            flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
+
+            return redirect()->back();
+        }
+
+        return redirect()->route('vanilo.product.show', ['product' => $product]);
+    }
+
 }
