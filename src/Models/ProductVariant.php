@@ -21,23 +21,30 @@ use Illuminate\Database\Eloquent\Model;
 use Vanilo\Framework\Contracts\ProductVariant as ProductVariantContract;
 use Vanilo\Properties\Models\PropertyValue as PropertyValue;
 use Vanilo\Framework\Traits\HasPropertyValues;
+use Vanilo\Contracts\Buyable;
+use Vanilo\Support\Traits\BuyableModel;
 
 //Testing
 use Illuminate\Support\Facades\Log;
 
-class ProductVariant extends Model implements ProductVariantContract, HasMedia
+class ProductVariant extends Model implements ProductVariantContract, HasMedia, Buyable
 {
     protected const DEFAULT_THUMBNAIL_WIDTH  = 250;
     protected const DEFAULT_THUMBNAIL_HEIGHT = 250;
     protected const DEFAULT_THUMBNAIL_FIT    = Manipulations::FIT_CROP;
 
     
-    use BuyableImageSpatieV7, HasMediaTrait, HasPropertyValues;
+    use BuyableModel, BuyableImageSpatieV7, HasMediaTrait, HasPropertyValues;
 
     
     protected $table = 'product_variants';
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $appends = ['images'];
+
+    public function parent()
+    {
+        return $this->belongsTo('Vanilo\Framework\Models\Product', 'product_id');
+    }
     
 
     public function registerMediaConversions(Media $media = null)
@@ -83,5 +90,21 @@ class ProductVariant extends Model implements ProductVariantContract, HasMedia
         return false;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function title()
+    {
+        return $this->parent->title();
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function isActive()
+    {
+        return $this->parent->isActive();
+    }
+
+    
 }

@@ -20,6 +20,8 @@ class CreateProductVariantsTable extends Migration
             $table->decimal('cost', 15, 4)->default(0);
             $table->decimal('price', 15, 4)->nullable();
             $table->decimal('stock', 15, 4)->default(0);
+            $table->integer('units_sold')->unsigned()->default(0);
+            $table->dateTime('last_sale_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

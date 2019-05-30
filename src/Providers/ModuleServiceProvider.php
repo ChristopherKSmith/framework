@@ -52,6 +52,7 @@ use Vanilo\Framework\Models\ShippingMethod;
 use Vanilo\Framework\Contracts\ShippingMethodType as ShippingMethodTypeContract;
 use Vanilo\Framework\Models\ShippingMethodType;
 use Vanilo\Framework\Contracts\ProductVariant as ProductVariantContract;
+use Vanilo\Framework\Models\ProductVariantProxy;
 use Vanilo\Framework\Models\ProductVariant;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
@@ -102,7 +103,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
 
         // This is ugly, but it does the job for v0.1
         Relation::morphMap([
-            app(ProductContract::class)->morphTypeName() => ProductProxy::modelClass()
+            app(ProductContract::class)->morphTypeName() => ProductProxy::modelClass(),
+            app(ProductVariantContract::class)->morphTypeName() => ProductVariantProxy::modelClass()
         ]);
 
         // Use the framework's extended order factory

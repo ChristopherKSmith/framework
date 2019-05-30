@@ -127,5 +127,19 @@ class Product extends BaseProduct implements Buyable, HasMedia
         }
         return false;
     }
+
+    public function findVariantBySKU(String $sku)
+    {
+        if($this->sku === $sku){
+            return $this;
+        }
+
+        foreach($this->variants as $variant){
+            if($variant->sku === $sku){return $variant;}
+        }
+        return false;
+
+
+    }
     
 }
