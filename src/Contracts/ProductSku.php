@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the Product Variant interface.
+ * Contains the Product SKU interface.
  *
  * @copyright   Copyright (c) 2017 Kyle Smith
  * @author      Kyle Smith
@@ -12,6 +12,6 @@
 
 namespace Vanilo\Framework\Contracts;
 
-interface ProductVariant
+interface ProductSku
 {
 }

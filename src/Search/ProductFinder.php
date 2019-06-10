@@ -115,7 +115,7 @@ class ProductFinder
 
     public function havingPropertyValue(PropertyValue $propertyValue): self
     {
-        $this->queryBuilder->whereHas('propertyValues', function ($query) use ($propertyValue) {
+        $this->queryBuilder->whereHas('skus.propertyValues', function ($query) use ($propertyValue) {
             $query->where('id', $propertyValue->id);
         });
 
@@ -135,7 +135,7 @@ class ProductFinder
     {
         $propertyValueIds = collect($propertyValues)->pluck('id');
 
-        $this->queryBuilder->whereHas('propertyValues', function ($query) use ($propertyValueIds) {
+        $this->queryBuilder->whereHas('skus.propertyValues', function ($query) use ($propertyValueIds) {
             $query->whereIn('id', $propertyValueIds);
         });
 
@@ -159,7 +159,7 @@ class ProductFinder
     {
         $propertyValueIds = collect($propertyValues)->pluck('id');
 
-        $this->queryBuilder->orWhereHas('propertyValues', function ($query) use ($propertyValueIds) {
+        $this->queryBuilder->orWhereHas('skus.propertyValues', function ($query) use ($propertyValueIds) {
             $query->whereIn('id', $propertyValueIds);
         });
 

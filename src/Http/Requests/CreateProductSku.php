@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the UpdateProductVariant class.
+ * Contains the CreateProductSKU class.
  *
  * @copyright   Copyright (c) 2019 Kyle Smith
  * @author      Attila Fulop
@@ -14,7 +14,7 @@ namespace Vanilo\Framework\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateProductVariant extends FormRequest
+class CreateProductSku extends FormRequest
 {
     /**
      * @inheritDoc
@@ -22,7 +22,7 @@ class UpdateProductVariant extends FormRequest
     public function rules()
     {
         return [
-            'sku'      => 'required',
+            'code'      => 'required|unique:product_skus',
             'images'   => 'nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ];

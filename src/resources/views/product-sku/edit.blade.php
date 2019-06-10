@@ -8,13 +8,13 @@
 <div class="row">
 
     <div class="col-12 col-lg-8 col-xl-9">
-        {!! Form::model($productVariant, ['url'  => route('vanilo.product_variant.update', [$product, $productVariant]), 'method' => 'PUT']) !!}
+        {!! Form::model($productSku, ['url'  => route('vanilo.product_sku.update', [$product, $productSku]), 'method' => 'PUT']) !!}
         <div class="card card-accent-secondary">
             <div class="card-header">
-                {{ __('Product Variant Data') }}
+                {{ __('Product SKU Data') }}
             </div>
             <div class="card-block">
-                @include('vanilo::product-variant._form')
+                @include('vanilo::product-sku._form')
             </div>
 
             <div class="card-footer">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="col-12 col-lg-4 col-xl-3">
-        @include('vanilo::product-variant._edit_images')
+        @include('vanilo::product-sku._edit_images')
     </div>
 
 </div>

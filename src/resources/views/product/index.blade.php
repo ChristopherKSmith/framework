@@ -58,11 +58,11 @@
                         </td>
                         <td>
                             <span class="mb-3">
-                                {{ $product->units_sold }} {{ __('units sold') }}
+                                {{ $product->unitsSold() ?: '0' }} {{ __('units sold') }}
                             </span>
                             <div class="text-muted" title="{{ $product->last_sale_at ? $product->last_sale_at->format(__('Y-m-d H:i')) : '' }}">
                                 {{ __('Last sale') }}
-                                {{ $product->last_sale_at ? $product->last_sale_at->diffForHumans() : __('never') }}
+                                {{ $product->lastSaleAt() ? $product->lastSaleAt() : __('never') }}
                             </div>
                         </td>
                         <td>

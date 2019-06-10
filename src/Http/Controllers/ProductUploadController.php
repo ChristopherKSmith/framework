@@ -14,11 +14,11 @@ namespace Vanilo\Framework\Http\Controllers;
 use Konekt\AppShell\Http\Controllers\BaseController;
 use Vanilo\Product\Contracts\Product;
 use Vanilo\Product\Models\ProductProxy;
-use Vanilo\Framework\Contracts\ProductVariant;
-use Vanilo\Framework\Models\ProductVariantProxy;
-use Vanilo\Framework\Http\Requests\CreateProductVariant;
+use Vanilo\Framework\Contracts\ProductSku;
+use Vanilo\Framework\Models\ProductSkuProxy;
+use Vanilo\Framework\Http\Requests\CreateProductSku;
 use Vanilo\Framework\Http\Requests\CreateProduct;
-use Vanilo\Framework\Http\Requests\UpdateProductVariant;
+use Vanilo\Framework\Http\Requests\UpdateProductSku;
 use Vanilo\Properties\Models\PropertyValueProxy;
 use Vanilo\Properties\Models\PropertyProxy;
 use Vanilo\Framework\Http\Requests\UploadProduct;
@@ -29,7 +29,7 @@ use Validator;
 class ProductUploadController extends BaseController
 {
    /**
-     * Displays the File Upload Form for New Products/Variants
+     * Displays the File Upload Form for New Products/skus
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -38,7 +38,7 @@ class ProductUploadController extends BaseController
         return view('vanilo::product-upload.index');
     }
     /**
-     * Creates New Products/Variants by processing uploaded csv
+     * Creates New Products/skus by processing uploaded csv
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -110,7 +110,7 @@ class ProductUploadController extends BaseController
                         $data['name'], 
                         $data['price'], 
                         $data['cost'],
-                        $data['sku'],
+                        $data['code'],
                         $data['stock'],
                         $data['state'],
                     ) = $file_data;
@@ -137,13 +137,13 @@ class ProductUploadController extends BaseController
                     }
                     
 
-                    //Check if variant exists
-                    $variant = ProductVariantProxy::where('sku', $data['sku'])->first();
-                    if(empty($variant))
+                    //Check if sku exists
+                    $sku = ProductSkuProxy::where('code', $data['code'])->first();
+                    if(empty($sku))
                     {
-                        //Create Variant
-                        $variant = ProductVariantProxy::create([
-                            'sku' => $data['sku'],
+                        //Create sku
+                        $sku = ProductSkuProxy::create([
+                            'code' => $data['code'],
                             'price' => $data['price'],
                             'cost' => $data['cost'],
                             'stock' => $data['stock'],
@@ -151,16 +151,16 @@ class ProductUploadController extends BaseController
 
                         ]);
                     }else{
-                        //Update Variant
-                        $variant->fill([
-                            'sku' => $data['sku'],
+                        //Update sku
+                        $sku->fill([
+                            'code' => $data['code'],
                             'price' => $data['price'],
                             'cost' => $data['cost'],
                             'stock' => $data['stock'],
                             'product_id' => $product->id,
 
                         ]);
-                        $variant->save();
+                        $sku->save();
                     }
 
                     //Add Properties and PropertyValues
@@ -211,10 +211,10 @@ class ProductUploadController extends BaseController
                             $product->addProperty($property);
                         }
                         
-                        //Add Property Value to Variant
-                        if(!$variant->hasPropertyValue($property_value))
+                        //Add Property Value to sku
+                        if(!$sku->hasPropertyValue($property_value))
                         {
-                            $variant->addPropertyValue($property_value);
+                            $sku->addPropertyValue($property_value);
                         }
                         
                     }

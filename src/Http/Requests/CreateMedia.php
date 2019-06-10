@@ -19,7 +19,7 @@ class CreateMedia extends FormRequest implements CreateMediaContract
 {
     use HasFor;
 
-    protected $allowedFor = ['product', 'product_variant'];
+    protected $allowedFor = ['product', 'product_sku'];
 
     /**
      * @inheritDoc

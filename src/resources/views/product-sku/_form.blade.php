@@ -8,7 +8,7 @@
             <span class="input-group-addon">
                 <i class="zmdi zmdi-code-setting"></i>
             </span>
-            {{ Form::text('sku', null, [
+            {{ Form::text('code', null, [
                     'class' => 'form-control' . ($errors->has('sku') ? ' is-invalid' : ''),
                     'placeholder' => __('SKU (product code)')
                 ])

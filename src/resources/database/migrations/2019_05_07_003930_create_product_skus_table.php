@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductVariantsTable extends Migration
+class CreateProductSkusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateProductVariantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_variants', function (Blueprint $table) {
+        Schema::create('product_skus', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id')->unsigned();
-            $table->string('sku');
+            $table->string('code');
             $table->decimal('cost', 15, 4)->default(0);
             $table->decimal('price', 15, 4)->nullable();
             $table->decimal('stock', 15, 4)->default(0);
@@ -39,6 +39,6 @@ class CreateProductVariantsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('product_variants');
+        Schema::drop('product_skus');
     }
 }

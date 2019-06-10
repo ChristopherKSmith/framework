@@ -102,14 +102,14 @@ Breadcrumbs::register('vanilo.shipping_method.create', function ($breadcrumbs) {
     $breadcrumbs->push(__('Create Shipping Method'));
 });
 
-Breadcrumbs::register('vanilo.product_variant.create', function ($breadcrumbs, $product) {
+Breadcrumbs::register('vanilo.product_sku.create', function ($breadcrumbs, $product) {
     $breadcrumbs->parent('vanilo.product.show', $product);
-    $breadcrumbs->push(__('Create Variant'));
+    $breadcrumbs->push(__('Create SKU'));
 });
 
-Breadcrumbs::register('vanilo.product_variant.edit', function ($breadcrumbs, $product, $productVariant) {
+Breadcrumbs::register('vanilo.product_sku.edit', function ($breadcrumbs, $product, $productSku) {
     $breadcrumbs->parent('vanilo.product.show', $product);
-    $breadcrumbs->push($productVariant->sku);
+    $breadcrumbs->push($productSku->code);
 });
 
 Breadcrumbs::register('vanilo.product_upload.index', function ($breadcrumbs) {

@@ -19,7 +19,7 @@
             <div class="carousel-inner">
                 @foreach($product->getMedia() as $media)
                     <div class="carousel-item{{ $loop->first ? ' active' : ''}}">
-                        <img class="d-block w-100" src="{{ $media->getUrl('thumbnail') }}" alt="{{ $media->name }}">
+                        <img class="d-block w-100" src="{{ $media->getUrl('small') }}" alt="{{ $media->name }}">
                     </div>
                 @endforeach
             </div>

@@ -21,7 +21,8 @@
                     </small>
                 @endif
                 @slot('subtitle')
-                    {{ $product->sku }}
+                    {{ __('Number of SKUs:') }}
+                    {{ $product->skuCount() }}
                 @endslot
             @endcomponent
         </div>
@@ -45,12 +46,12 @@
 
         <div class="col-sm-6 col-md-3">
             @component('appshell::widgets.card_with_icon', ['icon' => 'mall'])
-                {{ $product->units_sold ?: '0' }}
+                {{ $product->unitsSold() ?: '0' }}
                 {{ __('units sold') }}
                 @slot('subtitle')
-                    @if ($product->last_sale_at)
+                    @if ($product->lastSaleAt())
                         {{ __('Last sale at') }}
-                        {{ $product->last_sale_at->format(__('Y-m-d H:i')) }}
+                        {{ $product->lastSaleAt() }}
                     @else
                         {{ __('No sales were registered') }}
                     @endif
@@ -61,7 +62,7 @@
         <div class="col-sm-6 col-md-9">
             @include('vanilo::product._show_categories')
             @include('vanilo::product._show_properties')
-            @include('vanilo::product._show_variants')
+            @include('vanilo::product._show_skus')
         </div>
 
         <div class="col-sm-6 col-md-3">

@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Konekt\Acl\Models\RoleProxy;
 use Konekt\AppShell\Acl\ResourcePermissions;
 
-class CreateProductVariantPermissions extends Migration
+class CreateProductSkuPermissions extends Migration
 {
-    protected $resources = ['productvariant'];
+    protected $resources = ['productsku'];
 
     public function up()
     {

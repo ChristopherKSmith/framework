@@ -19,6 +19,7 @@ use Vanilo\Product\Models\ProductStateProxy;
 use Vanilo\Framework\Contracts\Requests\CreateProduct;
 use Vanilo\Framework\Contracts\Requests\UpdateProduct;
 use Vanilo\Properties\Models\PropertyProxy;
+use Vanilo\Framework\Models\ProductSKUProxy;
 
 class ProductController extends BaseController
 {
@@ -55,7 +56,19 @@ class ProductController extends BaseController
     public function store(CreateProduct $request)
     {
         try {
+            //Create Product
             $product = ProductProxy::create($request->except('images'));
+
+            //Then Create Product SKU
+            $product_sku = ProductSKUProxy::create([
+                'sku' => $request['sku'],
+                'price' => $request['price'],
+                'cost' => $request['cost'],
+                'stock' => $request['stock'],
+                'product_id' => $product->id,
+
+            ]);
+
             flash()->success(__(':name has been created', ['name' => $product->name]));
 
             try {
@@ -89,7 +102,7 @@ class ProductController extends BaseController
     {
         return view('vanilo::product.show', [
             'product'    => $product,
-            'variants' => $product->variants()->paginate(15),
+            'skus' => $product->skus()->paginate(15),
             'taxonomies' => TaxonomyProxy::all(),
             'properties' => PropertyProxy::all()
         ]);

@@ -46,8 +46,8 @@ Route::get('shipping/method/{shipping_method}/edit', 'ShippingMethodController@e
 Route::post('shipping/method/store', 'ShippingMethodController@store')->name('shipping_method.store');
 Route::put('shipping/method/{shipping_method}/update', 'ShippingMethodController@update')->name('shipping_method.update');
 
-Route::get('product/{product}/variant/create', 'ProductVariantController@create')->name('product_variant.create');
-Route::get('product/{product}/variant/{product_variant}/edit', 'ProductVariantController@edit')->name('product_variant.edit');
-Route::post('product/{product}/variant/store', 'ProductVariantController@store')->name('product_variant.store');
-Route::put('product/{product}/variant/{product_variant}', 'ProductVariantController@update')->name('product_variant.update');
-Route::delete('product/{product}/variant/{product_variant}', 'ProductVariantController@destroy')->name('product_variant.destroy');
+Route::get('product/{product}/sku/create', 'ProductSKUController@create')->name('product_sku.create');
+Route::get('product/{product}/sku/{product_sku}/edit', 'ProductSKUController@edit')->name('product_sku.edit');
+Route::post('product/{product}/sku/store', 'ProductSKUController@store')->name('product_sku.store');
+Route::put('product/{product}/sku/{product_sku}', 'ProductSKUController@update')->name('product_sku.update');
+Route::delete('product/{product}/sku/{product_sku}', 'ProductSKUController@destroy')->name('product_sku.destroy');

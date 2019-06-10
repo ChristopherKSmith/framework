@@ -21,7 +21,7 @@ use Vanilo\Framework\Traits\HasProperties;
 use Vanilo\Support\Traits\BuyableImageSpatieV7;
 use Vanilo\Support\Traits\BuyableModel;
 use Vanilo\Product\Models\Product as BaseProduct;
-use Vanilo\Framework\Models\ProductVariant;
+use Vanilo\Framework\Models\ProductSKU;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Vanilo\Properties\Models\Property as Property;
 
@@ -37,7 +37,6 @@ class Product extends BaseProduct implements Buyable, HasMedia
     use BuyableModel, BuyableImageSpatieV7, HasMediaTrait, HasTaxons, HasProperties;
 
     protected $dates = ['created_at', 'updated_at', 'last_sale_at'];
-
     protected $appends = ['images'];
 
     public static function boot()
@@ -46,9 +45,9 @@ class Product extends BaseProduct implements Buyable, HasMedia
 
         static::deleting(function ($product) {
             
-            foreach($product->variants as $variant)
+            foreach($product->skus as $sku)
             {
-                $variant->delete();
+                $sku->delete();
             }
         });
     }
@@ -88,13 +87,13 @@ class Product extends BaseProduct implements Buyable, HasMedia
         }  
     }
 
-    public function variants()
+    public function skus()
     {
-        return $this->hasMany('Vanilo\Framework\Models\ProductVariant')->with('propertyValues');
+        return $this->hasMany('Vanilo\Framework\Models\ProductSKU')->with('propertyValues');
     }
 
     public function propertyValues(){
-        return $this->variants
+        return $this->skus
             ->pluck('propertyValues')
             ->flatten(1)
             ->unique('id')
@@ -128,18 +127,38 @@ class Product extends BaseProduct implements Buyable, HasMedia
         return false;
     }
 
-    public function findVariantBySKU(String $sku)
+    public function findSKU(String $code)
     {
-        if($this->sku === $sku){
-            return $this;
-        }
 
-        foreach($this->variants as $variant){
-            if($variant->sku === $sku){return $variant;}
+        foreach($this->skus as $sku){
+            if($sku->code === $code){return $sku;}
         }
         return false;
 
-
     }
     
+    public function unitsSold()
+    {
+        return $this->skus()->sum('units_sold');
+    }
+
+    public function lastSaleAt()
+    {
+        return $this->skus()->max('last_sale_at');
+    }
+
+    public function skuCount()
+    {
+        return $this->skus()->count();
+    }
+
+    public function defaultSKU()
+    {
+        return $this->skus()->where('stock', '>', 0)->first();
+    }
+
+    public function defaultPrice()
+    {
+        return $this->defaultSKU()['price'];
+    }
 }

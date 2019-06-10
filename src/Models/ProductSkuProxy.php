@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the ProductProxy class.
+ * Contains the ProductSKUProxy class.
  *
  * @copyright   Copyright (c) 2017 Kyle Smith
  * @author      Kyle Smith
@@ -14,6 +14,6 @@ namespace Vanilo\Framework\Models;
 
 use Konekt\Concord\Proxies\ModelProxy;
 
-class ProductVariantProxy extends ModelProxy
+class ProductSkuProxy extends ModelProxy
 {
 }

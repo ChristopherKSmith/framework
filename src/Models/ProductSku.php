@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the ShippingMethod class.
+ * Contains the Product SKU class.
  *
  * @copyright   Copyright (c) 2017 Kyle Smith
  * @author      Kyle Smith
@@ -18,7 +18,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 use Vanilo\Support\Traits\BuyableImageSpatieV7;
 use Illuminate\Database\Eloquent\Model;
-use Vanilo\Framework\Contracts\ProductVariant as ProductVariantContract;
+use Vanilo\Framework\Contracts\ProductSku as ProductSkuContract;
 use Vanilo\Properties\Models\PropertyValue as PropertyValue;
 use Vanilo\Framework\Traits\HasPropertyValues;
 use Vanilo\Contracts\Buyable;
@@ -27,7 +27,7 @@ use Vanilo\Support\Traits\BuyableModel;
 //Testing
 use Illuminate\Support\Facades\Log;
 
-class ProductVariant extends Model implements ProductVariantContract, HasMedia, Buyable
+class ProductSku extends Model implements ProductSkuContract, HasMedia, Buyable
 {
     protected const DEFAULT_THUMBNAIL_WIDTH  = 250;
     protected const DEFAULT_THUMBNAIL_HEIGHT = 250;
@@ -37,7 +37,7 @@ class ProductVariant extends Model implements ProductVariantContract, HasMedia, 
     use BuyableModel, BuyableImageSpatieV7, HasMediaTrait, HasPropertyValues;
 
     
-    protected $table = 'product_variants';
+    protected $table = 'product_skus';
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $appends = ['images'];
 
