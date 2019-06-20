@@ -26,13 +26,6 @@ class UpdateProduct extends FormRequest implements UpdateProductContract
     {
         return [
             'name' => 'required|min:2|max:255',
-            'sku'  => [
-                'required',
-                Rule::unique('products')->ignore($this->route('product')->id),
-                ],
-            'state'    => ['required', Rule::in(ProductStateProxy::values())],
-            'price'    => 'nullable|numeric',
-            'stock'    => 'nullable|numeric',
             'images'   => 'nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ];

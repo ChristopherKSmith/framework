@@ -48,6 +48,7 @@ trait HasProperties
     public function removeProperty(Property $property)
     {
         return $this->properties()->detach($property);
+    
     }
 
     protected static function bootHasProperties()

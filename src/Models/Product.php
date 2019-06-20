@@ -37,7 +37,7 @@ class Product extends BaseProduct implements Buyable, HasMedia
     use BuyableModel, BuyableImageSpatieV7, HasMediaTrait, HasTaxons, HasProperties;
 
     protected $dates = ['created_at', 'updated_at', 'last_sale_at'];
-    protected $appends = ['images'];
+    protected $appends = ['images', 'defaultPrice'];
 
     public static function boot()
     {
@@ -87,6 +87,10 @@ class Product extends BaseProduct implements Buyable, HasMedia
         }  
     }
 
+    public function getDefaultPriceAttribute(){
+        return $this->defaultPrice();
+    }
+
     public function skus()
     {
         return $this->hasMany('Vanilo\Framework\Models\ProductSKU')->with('propertyValues');
@@ -105,6 +109,11 @@ class Product extends BaseProduct implements Buyable, HasMedia
             return $this->sale_price > 0;
     }
 
+    public function isOnStock(): bool
+    {
+        return $this->skus()->max('stock') > 0;
+    }
+
     public function getDiscountPrice() : float
     {
         return $this->price - $this->sale_price;
@@ -119,7 +128,7 @@ class Product extends BaseProduct implements Buyable, HasMedia
         return 0;
     }
 
-    public function hasProperty(Property $property) : bool
+    public function hasProperty(Property $property): bool
     {
         foreach($this->properties as $prop){
             if($prop->id === $property->id){return true;}

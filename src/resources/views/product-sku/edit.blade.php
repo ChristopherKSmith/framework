@@ -11,7 +11,7 @@
         {!! Form::model($productSku, ['url'  => route('vanilo.product_sku.update', [$product, $productSku]), 'method' => 'PUT']) !!}
         <div class="card card-accent-secondary">
             <div class="card-header">
-                {{ __('Product SKU Data') }}
+                {{ __('Product SKU') }}
             </div>
             <div class="card-block">
                 @include('vanilo::product-sku._form')

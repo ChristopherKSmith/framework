@@ -133,7 +133,10 @@ class ProductUploadController extends BaseController
                     
                     if(empty($product)){
                         //Create New Product
-                        $product = ProductProxy::create($data);
+                        $product = ProductProxy::create([
+                            'name' => $data['name'],
+                            'state' => $data['state'],
+                        ]);
                     }
                     
 
@@ -222,6 +225,7 @@ class ProductUploadController extends BaseController
                     
                 }
                 fclose($handle);
+                flash()->success(__(':file has been uploaded', ['file' => $request->csv_file->getClientOriginalName()]));
             }
 
 
@@ -237,7 +241,7 @@ class ProductUploadController extends BaseController
         //Then move file to upload folder
         //$path = $$request->csv_file->store('uploads/product');
 
-        return "All is well";
+        return redirect(route('vanilo.product.index'));
     }
 
 }

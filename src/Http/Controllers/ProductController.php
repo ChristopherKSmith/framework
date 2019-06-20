@@ -59,16 +59,6 @@ class ProductController extends BaseController
             //Create Product
             $product = ProductProxy::create($request->except('images'));
 
-            //Then Create Product SKU
-            $product_sku = ProductSKUProxy::create([
-                'sku' => $request['sku'],
-                'price' => $request['price'],
-                'cost' => $request['cost'],
-                'stock' => $request['stock'],
-                'product_id' => $product->id,
-
-            ]);
-
             flash()->success(__(':name has been created', ['name' => $product->name]));
 
             try {

@@ -15,7 +15,7 @@
         !!}
         <div class="card card-accent-secondary">
             <div class="card-header">
-                {{ __('Product Data') }}
+                {{ __('Product') }}
             </div>
             <div class="card-block">
                 @include('vanilo::product._form')

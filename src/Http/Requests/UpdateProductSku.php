@@ -22,7 +22,10 @@ class UpdateProductSku extends FormRequest
     public function rules()
     {
         return [
-            'code'      => 'required',
+            'code'  => [
+                'required',
+                Rule::unique('product_skus')->ignore($this->route('product_sku')->id),
+                ],
             'images'   => 'nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ];
