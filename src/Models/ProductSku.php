@@ -23,6 +23,7 @@ use Vanilo\Properties\Models\PropertyValue as PropertyValue;
 use Vanilo\Framework\Traits\HasPropertyValues;
 use Vanilo\Contracts\Buyable;
 use Vanilo\Support\Traits\BuyableModel;
+use Vanilo\Category\Models\TaxonomyProxy;
 
 //Testing
 use Illuminate\Support\Facades\Log;
@@ -82,12 +83,59 @@ class ProductSku extends Model implements ProductSkuContract, HasMedia, Buyable
         }  
     }
 
+    public function getColorThumbnail()
+    {
+        $product_skus = $this->parent->skus;
+        foreach($product_skus as $sku){
+        
+            foreach($this->propertyValues as $propertyValue){
+
+                if($propertyValue->property->slug === 'color' && $sku->hasPropertyValue($propertyValue)){
+                    //Check if SKU media has collection
+                    if (!$sku->media->isEmpty()) {
+                    
+                        $images = [];
+                        foreach(config('vanilo.framework.image.variants', []) as $name => $settings){
+                            $image_variant = [];
+                            foreach($sku->getMedia() as $media)
+                            {
+                                array_push($image_variant,$media->first() ? $media->getUrl($name) : '/images/product-'.$name.'.jpg');
+                            }
+                            $images[$name] = $image_variant;
+                        }
+                        if(!empty($images['thumbnail'][0]))
+                        {
+                            return $images['thumbnail'][0];
+                        }
+                    }  
+                }
+            }
+        }
+
+        //No Images Found
+        return "";
+        
+    }
+
     public function hasPropertyValue(PropertyValue $property_value) : bool
     {
         foreach($this->propertyValues as $val){
             if($val->id === $property_value->id){return true;}
         }
         return false;
+    }
+
+    public function brand() : string
+    {
+        //Get Brand Taxonomy
+        $taxonomy = TaxonomyProxy::where('slug', 'brands')->first();
+        $brand = $this->parent->taxons()->byTaxonomy($taxonomy)->get();
+
+        if(!empty($brand[0]))
+        {
+            return $brand[0]->name;
+        }
+        return '';
     }
 
     /**

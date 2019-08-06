@@ -9,30 +9,34 @@
             <tr>
                 <th style="width: 7%">#</th>
                 <th>{{ __('Name') }}</th>
+                <th>{{ __('Brand') }}</th>
+                <th>{{ __('SKU') }}</th>
                 <th>{{ __('Qty') }}</th>
                 <th>{{ __('Price') }}</th>
-                <th>{{ __('Subtotal') }}</th>
             </tr>
             </thead>
 
             <tbody>
             @foreach($order->getItems() as $item)
+                @php $sku = Vanilo\Framework\Models\ProductSku::find($item->product_id); @endphp
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->name }}</td>
+                    <td>{{ $sku->title() }}</td>
+                    <td>{{ $sku->brand() }}</td>
+                    <td>{{ $sku->code }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td>{{ format_price($item->price) }}</td>
-                    <td>{{ format_price($item->total) }}</td>
                 </tr>
+                
             @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="4">
+                    <th colspan="6">
                         <div style="float:right;">
-                                <div class="">{{ __('Sub total') }}: {{ format_price($order->subtotal()) }} </div>
-                                <div class="">{{ __('Shipping total') }}: {{ format_price($order->shippingMethod->rate) }}</div>
-                                <div class="">{{ __('Order total') }}: {{ format_price($order->total()) }}</div>
+                                <div>{{ __('Sub total') }}: {{ format_price($order->subtotal()) }} </div>
+                                <div>{{ __('Shipping total') }}: {{ format_price($order->shippingMethod->rate) }}</div>
+                                <div>{{ __('Order total') }}: {{ format_price($order->total()) }}</div>
                         </div>
                         
                     </th>
